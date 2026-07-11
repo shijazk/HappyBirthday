@@ -7,6 +7,8 @@
     <title>Our Memories ✨</title>
     <!-- CUSTOMIZE: Change favicon -->
     <link rel="icon" type="image/png" href="favicon.png">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Quicksand:wght@300;400;500;600&display=swap');
 
@@ -250,9 +252,25 @@
 
         /* Responsive Design */
         @media (max-width: 768px) {
-            .welcome h1 { font-size: 3rem; }
+            .welcome h1 { 
+                font-size: 3rem; 
+                padding: 0 15px;
+                margin-top: 80px;
+            }
             .memory-container { grid-template-columns: 1fr; }
             .final-message h2 { font-size: 2.5rem; }
+            
+            .goodbye-btn, .share-btn {
+                display: flex;
+                margin: 0.5rem auto;
+                width: 85%;
+                max-width: 280px;
+                justify-content: center;
+                box-sizing: border-box;
+            }
+            .share-btn {
+                margin-left: auto;
+            }
         }
 
         /* Music Toggle Button */
@@ -341,6 +359,23 @@
             transform: translateY(-5px);
             box-shadow: 0 8px 20px rgba(218, 112, 214, 0.6);
         }
+
+        /* ===== LUCIDE ICONS STYLE REFINEMENT ===== */
+        .music-icon svg,
+        .back-btn svg,
+        .goodbye-btn svg,
+        .share-btn svg {
+            width: 1.2em;
+            height: 1.2em;
+            vertical-align: middle;
+            display: inline-block;
+        }
+        .music-icon, .back-btn, .goodbye-btn, .share-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
     </style>
 </head>
 
@@ -349,9 +384,9 @@
         <source src="hbd.mp3" type="audio/mpeg">
     </audio>
     <div class="music-toggle" id="musicToggle" title="Toggle Music">
-        <span class="music-icon">🎵</span>
+        <span class="music-icon"><i data-lucide="volume-x"></i></span>
     </div>
-    <a href="timeline.html" class="back-btn" title="Go Back">←</a>
+    <a href="timeline.html" class="back-btn" title="Go Back"><i data-lucide="arrow-left"></i></a>
 
     <div class="floating-hearts">
         <div class="heart" style="--float-duration: 6s; --delay: 0s; --translate-x: 20px; left: 10%;">💝</div>
@@ -373,7 +408,7 @@
         <!-- Copy and paste memory-card blocks for more memories -->
 
         <div class="memory-card">
-            <img src="./photos/photo-1.jpg" alt="Memory 1" class="memory-img">
+            <img src="./photos/couple-4.jpeg" alt="Memory 1" class="memory-img">
             <!-- CUSTOMIZE: Change date/title -->
             <div class="memory-date">A Special Day</div>
             <!-- CUSTOMIZE: Change caption -->
@@ -381,13 +416,13 @@
         </div>
 
         <div class="memory-card">
-            <img src="./photos/photo-2.jpg" alt="Memory 2" class="memory-img">
+            <img src="./photos/couple-2.jpeg" alt="Memory 2" class="memory-img">
             <div class="memory-date">Beautiful Moments</div>
             <div class="memory-caption">You radiate positivity wherever you go. Keep shining bright! ✨</div>
         </div>
 
         <div class="memory-card">
-            <img src="./photos/photo-3.jpg" alt="Memory 3" class="memory-img">
+            <img src="./photos/couple-3.jpeg" alt="Memory 3" class="memory-img">
             <div class="memory-date">Birthday Vibes</div>
             <div class="memory-caption">Another year of celebrating you! Here's to making this birthday even more special! 🎂💖</div>
         </div>
@@ -395,7 +430,7 @@
 
     <section class="final-message">
         <!-- CUSTOMIZE: Change name and age -->
-        <h2>Happy [AGE]th Birthday, [THEIR NAME]! 🎂</h2>
+        <h2>Happy 26th Birthday, Henna! 🎂</h2>
         <!-- CUSTOMIZE: Change the message -->
         <p>From our first meeting to becoming inseparable - what a journey! 💫<br>
             Through every moment, every laugh, every memory - you've been amazing.<br>
@@ -403,43 +438,106 @@
         <p>You deserve all the happiness in the world. Keep being YOU! ✨</p>
         <!-- CUSTOMIZE: Change your name -->
         <p class="signature">- With love, Shaz 💖</p>
-        <a href="#" class="goodbye-btn" onclick="celebrate()">Celebrate! 🎊</a>
-        <button class="share-btn" onclick="shareWebsite()">Share This 💌</button>
+        <a href="#" class="goodbye-btn" onclick="celebrate()">Celebrate! <i data-lucide="party-popper"></i></a>
+        <button class="share-btn" onclick="shareWebsite()">Share This <i data-lucide="send"></i></button>
     </section>
 
     <!-- Confetti Canvas -->
     <canvas id="confetti-canvas" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; pointer-events: none; z-index: 9999;"></canvas>
 
     <script>
+        // Initialize Lucide Icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
         // Music control
         const bgMusic = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
-        const musicIcon = musicToggle.querySelector('.music-icon');
+        const musicIcon = musicToggle ? musicToggle.querySelector('.music-icon') : null;
 
         function toggleMusic() {
+            if (!bgMusic) return;
+
             if (bgMusic.paused) {
-                bgMusic.play();
-                musicToggle.classList.add('playing');
-                musicIcon.textContent = '🎵';
-                localStorage.setItem('musicPlaying', 'true');
+                const savedTime = localStorage.getItem('musicPosition');
+                if (savedTime) {
+                    bgMusic.currentTime = parseFloat(savedTime);
+                }
+                bgMusic.play().then(function() {
+                    if (musicToggle) musicToggle.classList.add('playing');
+                    if (musicIcon) {
+                        musicIcon.innerHTML = '<i data-lucide="music"></i>';
+                        lucide.createIcons();
+                    }
+                    localStorage.setItem('musicPlaying', 'true');
+                }).catch(function(err) {
+                    console.log('Music play failed:', err);
+                });
             } else {
                 bgMusic.pause();
-                musicToggle.classList.remove('playing');
-                musicIcon.textContent = '🔇';
+                if (musicToggle) musicToggle.classList.remove('playing');
+                if (musicIcon) {
+                    musicIcon.innerHTML = '<i data-lucide="volume-x"></i>';
+                    lucide.createIcons();
+                }
                 localStorage.setItem('musicPlaying', 'false');
             }
         }
 
-        musicToggle.addEventListener('click', toggleMusic);
+        if (musicToggle) {
+            musicToggle.addEventListener('click', toggleMusic);
+        }
 
-        if (localStorage.getItem('musicPlaying') === 'true') {
-            bgMusic.play().then(() => {
-                musicToggle.classList.add('playing');
-                musicIcon.textContent = '🎵';
-            }).catch(() => {
-                musicIcon.textContent = '🔇';
+        if (bgMusic) {
+            bgMusic.addEventListener('timeupdate', function() {
+                if (!bgMusic.paused) {
+                    localStorage.setItem('musicPosition', bgMusic.currentTime);
+                }
+            });
+            window.addEventListener('beforeunload', function() {
+                if (!bgMusic.paused) {
+                    localStorage.setItem('musicPosition', bgMusic.currentTime);
+                }
             });
         }
+
+        function startMusic() {
+            if (bgMusic && localStorage.getItem('musicPlaying') !== 'false') {
+                const savedTime = localStorage.getItem('musicPosition');
+                if (savedTime) {
+                    bgMusic.currentTime = parseFloat(savedTime);
+                }
+                bgMusic.play().then(function() {
+                    if (musicToggle) musicToggle.classList.add('playing');
+                    if (musicIcon) {
+                        musicIcon.innerHTML = '<i data-lucide="music"></i>';
+                        lucide.createIcons();
+                    }
+                    localStorage.setItem('musicPlaying', 'true');
+                }).catch(function(err) {
+                    console.log('Music play failed/blocked, waiting for interaction:', err);
+                    if (musicIcon) {
+                        musicIcon.innerHTML = '<i data-lucide="volume-x"></i>';
+                        lucide.createIcons();
+                    }
+                });
+            }
+        }
+
+        // Try to play immediately
+        startMusic();
+
+        // Fallback: Play on first interaction if blocked
+        const playOnInteraction = () => {
+            if (bgMusic && bgMusic.paused && localStorage.getItem('musicPlaying') !== 'false') {
+                startMusic();
+            }
+            document.removeEventListener('click', playOnInteraction);
+            document.removeEventListener('touchstart', playOnInteraction);
+        };
+        document.addEventListener('click', playOnInteraction);
+        document.addEventListener('touchstart', playOnInteraction);
 
         // Confetti Animation
         const canvas = document.getElementById('confetti-canvas');

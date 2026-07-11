@@ -3,68 +3,133 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <!-- CUSTOMIZE: Change the title -->
-    <title>Happy Birthday</title>
-    <!-- CUSTOMIZE: Change favicon to your own icon -->
+    <title>Happy Birthday Henna 💗</title>
+    <meta name="description" content="A special birthday celebration for Henna — with love from Shaz.">
     <link rel="icon" type="image/png" href="favicon.png">
-    <!-- Preload Images - CUSTOMIZE: Update with your image names -->
-    <link rel="preload" as="image" href="photo-1.jpg">
-    <link rel="preload" as="image" href="photo-2.jpg">
-    <link rel="preload" as="image" href="photo-3.jpg">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,600;0,700;1,400;1,600&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet">
+
+    <!-- Preload Images -->
     <link rel="preload" as="image" href="gif1.gif">
     <link rel="preload" as="image" href="gif2.gif">
     <!-- Preload Audio -->
     <link rel="preload" as="audio" href="hbd.mp3">
+
+    <!-- GSAP -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <link rel="stylesheet" href="home.css">
 </head>
 <body>
-    <!-- Loading Screen -->
+
+    <!-- ===== LOADING SCREEN ===== -->
     <div id="loading-screen" class="loading-screen">
-        <div class="loading-heart">💖</div>
-        <div class="loading-text">Loading magic...</div>
+        <div class="loading-ring"></div>
+        <div class="loading-rose"><i data-lucide="flower-2"></i></div>
+        <div class="loading-text">Preparing something magical...</div>
+        <div class="loading-sub">for Henna 💗</div>
     </div>
 
+    <!-- ===== CANVAS PARTICLE BACKGROUND ===== -->
+    <canvas id="particle-canvas"></canvas>
+
+    <!-- ===== AMBIENT ORBS ===== -->
+    <div class="orb orb-1"></div>
+    <div class="orb orb-2"></div>
+    <div class="orb orb-3"></div>
+
+    <!-- ===== AUDIO ===== -->
     <audio id="bgMusic" loop>
         <source src="hbd.mp3" type="audio/mpeg">
     </audio>
+
+    <!-- ===== MUSIC TOGGLE ===== -->
     <div class="music-toggle" id="musicToggle" title="Toggle Music">
-        <span class="music-icon">🎵</span>
+        <span class="music-icon"><i data-lucide="volume-x"></i></span>
     </div>
+
+    <!-- ===== CUSTOM CURSOR ===== -->
     <div class="cursor"></div>
+    <div class="cursor-ring"></div>
+
+    <!-- ===== MAIN CONTAINER ===== -->
     <div class="container">
+
+        <!-- Countdown Section -->
         <div id="countdown-section" class="countdown-section">
+            <div class="countdown-eyebrow">✨ Something special is coming ✨</div>
             <h2 class="countdown-title">Birthday Countdown</h2>
             <div class="countdown-timer">
                 <div class="countdown-item">
                     <span id="days" class="countdown-number">00</span>
                     <span class="countdown-label">Days</span>
                 </div>
+                <div class="countdown-divider">:</div>
                 <div class="countdown-item">
                     <span id="hours" class="countdown-number">00</span>
                     <span class="countdown-label">Hours</span>
                 </div>
+                <div class="countdown-divider">:</div>
                 <div class="countdown-item">
                     <span id="minutes" class="countdown-number">00</span>
-                    <span class="countdown-label">Minutes</span>
+                    <span class="countdown-label">Mins</span>
                 </div>
+                <div class="countdown-divider">:</div>
                 <div class="countdown-item">
                     <span id="seconds" class="countdown-number">00</span>
-                    <span class="countdown-label">Seconds</span>
+                    <span class="countdown-label">Secs</span>
                 </div>
             </div>
+            <p class="countdown-message">— counting down to Henna's big day 🌹 —</p>
         </div>
+
+        <!-- Birthday Content -->
         <div id="birthday-content" class="birthday-content" style="display: none;">
-            <!-- CUSTOMIZE: Change the age -->
-            <div class="level-up-badge">Level 26 Unlocked! 🎮</div>
-            <!-- CUSTOMIZE: Change the name -->
-            <h1>Happy Birthday Henna 💗</h1>
-            <!-- CUSTOMIZE: Change nickname or remove this line -->
-            <p class="nickname-text">To my favorite Molu 💕</p>
-            <div class="greeting"></div>
-            <!-- CUSTOMIZE: Change your name -->
-            <p class="from-text">- From Shaz 💖</p>
-            <button class="cta-button">Click to Enter 💕</button>
+
+            <!-- Badge -->
+            <div class="level-up-badge">
+                <span class="badge-star"><i data-lucide="sparkles"></i></span>
+                Level 26 Unlocked! 
+                <span class="badge-star"><i data-lucide="sparkles"></i></span>
+            </div>
+
+            <!-- Glass Card -->
+            <div class="glass-card">
+                <!-- Decorative top accent -->
+                <div class="card-accent"></div>
+
+                <!-- Main heading -->
+                <h1 class="main-title">
+                    Happy Birthday<br>
+                    <span class="name-highlight">Henna</span> <span class="heart-emoji"><i data-lucide="heart" style="fill: #e879a0; color: #e879a0;"></i></span>
+                </h1>
+
+                <!-- Nickname -->
+                <p class="nickname-text">To my favorite Molu 💕</p>
+
+                <!-- Divider -->
+                <div class="card-divider">
+                    <span class="divider-gem"><i data-lucide="gem"></i></span>
+                </div>
+
+                <!-- Typewriter greeting -->
+                <div class="greeting"></div>
+
+                <!-- From text -->
+                <p class="from-text">— From Shaz 💖</p>
+
+                <!-- CTA Button -->
+                <button class="cta-button" id="ctaBtn">
+                    <span class="btn-sparkle"><i data-lucide="sparkles"></i></span>
+                    <span class="btn-text">Enter Your World</span>
+                    <span class="btn-sparkle"><i data-lucide="sparkles"></i></span>
+                </button>
+            </div>
+
         </div>
     </div>
 

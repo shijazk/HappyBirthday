@@ -1,63 +1,125 @@
+// Initialize Lucide Icons on load
+if (typeof lucide !== 'undefined') {
+    lucide.createIcons();
+}
+
 // Music control
 const bgMusic = document.getElementById('bgMusic');
 const musicToggle = document.getElementById('musicToggle');
-const musicIcon = musicToggle.querySelector('.music-icon');
+const musicIcon = musicToggle ? musicToggle.querySelector('.music-icon') : null;
 
 function toggleMusic() {
+    if (!bgMusic) return;
+
     if (bgMusic.paused) {
-        bgMusic.play();
-        musicToggle.classList.add('playing');
-        musicIcon.textContent = '🎵';
-        localStorage.setItem('musicPlaying', 'true');
+        const savedTime = localStorage.getItem('musicPosition');
+        if (savedTime) {
+            bgMusic.currentTime = parseFloat(savedTime);
+        }
+        bgMusic.play().then(function() {
+            if (musicToggle) musicToggle.classList.add('playing');
+            if (musicIcon) {
+                musicIcon.innerHTML = '<i data-lucide="music"></i>';
+                lucide.createIcons();
+            }
+            localStorage.setItem('musicPlaying', 'true');
+        }).catch(function(err) {
+            console.log('Music play failed:', err);
+        });
     } else {
         bgMusic.pause();
-        musicToggle.classList.remove('playing');
-        musicIcon.textContent = '🔇';
+        if (musicToggle) musicToggle.classList.remove('playing');
+        if (musicIcon) {
+            musicIcon.innerHTML = '<i data-lucide="volume-x"></i>';
+            lucide.createIcons();
+        }
         localStorage.setItem('musicPlaying', 'false');
     }
 }
 
-musicToggle.addEventListener('click', toggleMusic);
+if (musicToggle) {
+    musicToggle.addEventListener('click', toggleMusic);
+}
 
-// Check if music was playing on previous page
-if (localStorage.getItem('musicPlaying') === 'true') {
-    bgMusic.play().then(() => {
-        musicToggle.classList.add('playing');
-        musicIcon.textContent = '🎵';
-    }).catch(() => {
-        musicIcon.textContent = '🔇';
+if (bgMusic) {
+    bgMusic.addEventListener('timeupdate', function() {
+        if (!bgMusic.paused) {
+            localStorage.setItem('musicPosition', bgMusic.currentTime);
+        }
+    });
+    window.addEventListener('beforeunload', function() {
+        if (!bgMusic.paused) {
+            localStorage.setItem('musicPosition', bgMusic.currentTime);
+        }
     });
 }
+
+function startMusic() {
+    if (bgMusic && localStorage.getItem('musicPlaying') !== 'false') {
+        const savedTime = localStorage.getItem('musicPosition');
+        if (savedTime) {
+            bgMusic.currentTime = parseFloat(savedTime);
+        }
+        bgMusic.play().then(function() {
+            if (musicToggle) musicToggle.classList.add('playing');
+            if (musicIcon) {
+                musicIcon.innerHTML = '<i data-lucide="music"></i>';
+                lucide.createIcons();
+            }
+            localStorage.setItem('musicPlaying', 'true');
+        }).catch(function(err) {
+            console.log('Music play failed/blocked, waiting for interaction:', err);
+            if (musicIcon) {
+                musicIcon.innerHTML = '<i data-lucide="volume-x"></i>';
+                lucide.createIcons();
+            }
+        });
+    }
+}
+
+// Try to play immediately
+startMusic();
+
+// Fallback: Play on first interaction if blocked
+const playOnInteraction = () => {
+    if (bgMusic && bgMusic.paused && localStorage.getItem('musicPlaying') !== 'false') {
+        startMusic();
+    }
+    document.removeEventListener('click', playOnInteraction);
+    document.removeEventListener('touchstart', playOnInteraction);
+};
+document.addEventListener('click', playOnInteraction);
+document.addEventListener('touchstart', playOnInteraction);
 
 // ===== CUSTOMIZE: Add your reasons here! =====
 // Each reason has:
 // - text: The message to display
-// - emoji: An emoji shown before the text
+// - icon: A Lucide icon name shown before the text
 // - gif: Animation file to show (optional, use animation-1.gif or animation-2.gif)
 const reasons = [
     {
         text: "Because you always know how to make me smile! 💖",
-        emoji: "✨",
+        icon: "sparkles",
         gif: "gif1.gif"
     },
     {
         text: "Because you're the best listener I know! 🌸",
-        emoji: "💫",
+        icon: "smile",
         gif: "gif2.gif"
     },
     {
         text: "Because your laugh is contagious! ✨",
-        emoji: "🌟",
+        icon: "smile",
         gif: "gif1.gif"
     },
     {
         text: "Because you make every moment special! 🎂",
-        emoji: "💖",
+        icon: "heart",
         gif: "gif2.gif"
     },
     {
         text: "Because you're simply amazing! Here's to another wonderful year! 🎉",
-        emoji: "🎊",
+        icon: "party-popper",
         gif: "gif1.gif"
     }
     // Add more reasons as needed!
@@ -77,7 +139,7 @@ function createReasonCard(reason) {
 
     const text = document.createElement('div');
     text.className = 'reason-text';
-    text.innerHTML = `${reason.emoji} ${reason.text}`;
+    text.innerHTML = `<i data-lucide="${reason.icon}" class="reason-icon"></i> ${reason.text}`;
 
     const gifOverlay = document.createElement('div');
     gifOverlay.className = 'gif-overlay';
@@ -104,6 +166,11 @@ function displayNewReason() {
     if (currentReasonIndex < reasons.length) {
         const card = createReasonCard(reasons[currentReasonIndex]);
         reasonsContainer.appendChild(card);
+        
+        // Render Lucide icons in card
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
 
         // Update counter
         reasonCounter.textContent = `Reason ${currentReasonIndex + 1} of ${reasons.length}`;

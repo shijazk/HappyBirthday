@@ -9,6 +9,8 @@
     <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
     <link href="https://fonts.googleapis.com/css2?family=Quicksand:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
     <style>
         * {
             margin: 0;
@@ -229,8 +231,9 @@
         }
 
         .next-btn {
-            display: block;
+            display: flex;
             margin: 3rem auto;
+            width: max-content;
             padding: 1rem 2.5rem;
             font-size: 1.2rem;
             background: linear-gradient(45deg, #ffd700, #ffed4a);
@@ -330,7 +333,48 @@
 
             .page-title {
                 font-size: 1.8rem;
+                padding: 0 15px;
+                margin-top: 80px;
             }
+        }
+
+        /* ===== LUCIDE ICONS STYLE REFINEMENT ===== */
+        .music-icon svg,
+        .back-btn svg,
+        .timeline-emoji svg,
+        .receipt-title svg,
+        .receipt-value svg,
+        .receipt-total svg,
+        .receipt-footer svg,
+        .next-btn svg {
+            width: 1.2em;
+            height: 1.2em;
+            vertical-align: middle;
+            display: inline-block;
+        }
+        .music-icon, .back-btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .next-btn {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+        .timeline-emoji svg {
+            width: 1.8rem;
+            height: 1.8rem;
+            color: #ff69b4;
+        }
+        .receipt-title svg {
+            margin-right: 0.3rem;
+            color: #4a4a4a;
+        }
+        .receipt-value svg, .receipt-total svg, .receipt-footer svg {
+            margin-left: 0.2rem;
         }
     </style>
 </head>
@@ -339,9 +383,9 @@
         <source src="hbd.mp3" type="audio/mpeg">
     </audio>
     <div class="music-toggle" id="musicToggle" title="Toggle Music">
-        <span class="music-icon">🎵</span>
+        <span class="music-icon"><i data-lucide="volume-x"></i></span>
     </div>
-    <a href="wishes.html" class="back-btn" title="Go Back">←</a>
+    <a href="wishes.html" class="back-btn" title="Go Back"><i data-lucide="arrow-left"></i></a>
 
     <!-- CUSTOMIZE: Change the title and subtitle -->
     <h1 class="page-title">Our Journey Together 💫</h1>
@@ -354,40 +398,40 @@
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-                <div class="timeline-emoji">💬</div>
+                <div class="timeline-emoji"><i data-lucide="gem"></i></div>
                 <!-- CUSTOMIZE: Change date -->
-                <div class="timeline-date">January 1, 2023</div>
+                <div class="timeline-date">June 09, 2024</div>
                 <!-- CUSTOMIZE: Change title -->
-                <div class="timeline-title">First Meeting</div>
+                <div class="timeline-title">Engagement Day</div>
                 <!-- CUSTOMIZE: Change description -->
-                <div class="timeline-desc">The day we first met! Little did we know this would be the start of an amazing journey.</div>
+                <div class="timeline-desc">Alhamdulillah! A blessed day as our families united to celebrate our engagement.</div>
             </div>
         </div>
 
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-                <div class="timeline-emoji">🤝</div>
-                <div class="timeline-date">March 15, 2023</div>
-                <div class="timeline-title">Becoming Friends</div>
-                <div class="timeline-desc">The friendship started feeling more real! We began spending more time together.</div>
+                <div class="timeline-emoji"><i data-lucide="handshake"></i></div>
+                <div class="timeline-date">June 14, 2024</div>
+                <div class="timeline-title">Nikkah Day</div>
+                <div class="timeline-desc">Alhamdulillah! The day we became husband and wife, beginning a lifetime of love, faith, and togetherness.</div>
             </div>
         </div>
 
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-                <div class="timeline-emoji">😊</div>
-                <div class="timeline-date">June 20, 2023</div>
-                <div class="timeline-title">First Adventure</div>
-                <div class="timeline-desc">Our first adventure together! An unforgettable experience that brought us closer.</div>
+                <div class="timeline-emoji"><i data-lucide="compass"></i></div>
+                <div class="timeline-date">Augest 23, 2025</div>
+                <div class="timeline-title"> Our First Adventure</div>
+                <div class="timeline-desc">Kodaikanal became the destination of our first journey together. Every moment, every smile, and every beautiful view made this trip a memory we'll treasure for a lifetime. Alhamdulillah for this beautiful beginning.</div>
             </div>
         </div>
 
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-                <div class="timeline-emoji">⚡</div>
+                <div class="timeline-emoji"><i data-lucide="zap"></i></div>
                 <div class="timeline-date">Through The Journey</div>
                 <div class="timeline-title">Ups and Downs</div>
                 <div class="timeline-desc">We've had our moments, but we always found our way back. That's what real friendship is about!</div>
@@ -397,7 +441,7 @@
         <div class="timeline-item">
             <div class="timeline-dot"></div>
             <div class="timeline-content">
-                <div class="timeline-emoji">🎂</div>
+                <div class="timeline-emoji"><i data-lucide="cake"></i></div>
                 <!-- CUSTOMIZE: Change to their birthday date -->
                 <div class="timeline-date">July 12, 2000</div>
                 <div class="timeline-title">Your Birthday!</div>
@@ -410,27 +454,27 @@
     <!-- Friendship Receipt - CUSTOMIZE all values -->
     <div class="receipt-container">
         <div class="receipt-header">
-            <div class="receipt-title">🧾 FRIENDSHIP RECEIPT</div>
+            <div class="receipt-title"><i data-lucide="receipt"></i> FRIENDSHIP RECEIPT</div>
             <!-- CUSTOMIZE: Change subtitle -->
             <div class="receipt-subtitle">Best Friends Inc.</div>
         </div>
         <div class="receipt-row">
             <span class="receipt-label">Years of Friendship:</span>
             <!-- CUSTOMIZE: Update value -->
-            <span class="receipt-value">2+ years</span>
+            <span class="receipt-value">9+ years</span>
         </div>
         <div class="receipt-row">
             <span class="receipt-label">First Meeting:</span>
             <!-- CUSTOMIZE: Update date -->
-            <span class="receipt-value">Jan 1, 2023</span>
+            <span class="receipt-value">Jan 1, 2015</span>
         </div>
         <div class="receipt-row">
             <span class="receipt-label">Adventures Together:</span>
-            <span class="receipt-value">Many 📍</span>
+            <span class="receipt-value">Many <i data-lucide="map-pin"></i></span>
         </div>
         <div class="receipt-row">
             <span class="receipt-label">Laughs Shared:</span>
-            <span class="receipt-value">Countless 😄</span>
+            <span class="receipt-value">Countless <i data-lucide="smile"></i></span>
         </div>
         <div class="receipt-row">
             <span class="receipt-label">Inside Jokes:</span>
@@ -441,47 +485,110 @@
             <span class="receipt-value">∞ Infinite</span>
         </div>
         <div class="receipt-total">
-            <strong>TOTAL FRIENDSHIP VALUE: PRICELESS 💖</strong>
+            <strong>TOTAL FRIENDSHIP VALUE: PRICELESS <i data-lucide="heart" style="fill: #e879a0; color: #e879a0;"></i></strong>
         </div>
         <div class="receipt-footer">
             Thank you for being an amazing friend!<br>
             <!-- CUSTOMIZE: Change your name -->
-            - Shaz 💖
+            - Henna <i data-lucide="heart" style="fill: #e879a0; color: #e879a0;"></i>
         </div>
     </div>
 
-    <button class="next-btn" onclick="goToMemories()">View Our Memories 📸</button>
+    <button class="next-btn" onclick="goToMemories()">View Our Memories <i data-lucide="camera"></i></button>
 
     <script>
+        // Initialize Lucide Icons
+        if (typeof lucide !== 'undefined') {
+            lucide.createIcons();
+        }
+
         // Music Control
         const bgMusic = document.getElementById('bgMusic');
         const musicToggle = document.getElementById('musicToggle');
-        const musicIcon = musicToggle.querySelector('.music-icon');
+        const musicIcon = musicToggle ? musicToggle.querySelector('.music-icon') : null;
 
         function toggleMusic() {
+            if (!bgMusic) return;
+
             if (bgMusic.paused) {
-                bgMusic.play();
-                musicToggle.classList.add('playing');
-                musicIcon.textContent = '🎵';
-                localStorage.setItem('musicPlaying', 'true');
+                const savedTime = localStorage.getItem('musicPosition');
+                if (savedTime) {
+                    bgMusic.currentTime = parseFloat(savedTime);
+                }
+                bgMusic.play().then(function() {
+                    if (musicToggle) musicToggle.classList.add('playing');
+                    if (musicIcon) {
+                        musicIcon.innerHTML = '<i data-lucide="music"></i>';
+                        lucide.createIcons();
+                    }
+                    localStorage.setItem('musicPlaying', 'true');
+                }).catch(function(err) {
+                    console.log('Music play failed:', err);
+                });
             } else {
                 bgMusic.pause();
-                musicToggle.classList.remove('playing');
-                musicIcon.textContent = '🔇';
+                if (musicToggle) musicToggle.classList.remove('playing');
+                if (musicIcon) {
+                    musicIcon.innerHTML = '<i data-lucide="volume-x"></i>';
+                    lucide.createIcons();
+                }
                 localStorage.setItem('musicPlaying', 'false');
             }
         }
 
-        musicToggle.addEventListener('click', toggleMusic);
+        if (musicToggle) {
+            musicToggle.addEventListener('click', toggleMusic);
+        }
 
-        if (localStorage.getItem('musicPlaying') === 'true') {
-            bgMusic.play().then(() => {
-                musicToggle.classList.add('playing');
-                musicIcon.textContent = '🎵';
-            }).catch(() => {
-                musicIcon.textContent = '🔇';
+        if (bgMusic) {
+            bgMusic.addEventListener('timeupdate', function() {
+                if (!bgMusic.paused) {
+                    localStorage.setItem('musicPosition', bgMusic.currentTime);
+                }
+            });
+            window.addEventListener('beforeunload', function() {
+                if (!bgMusic.paused) {
+                    localStorage.setItem('musicPosition', bgMusic.currentTime);
+                }
             });
         }
+
+        function startMusic() {
+            if (bgMusic && localStorage.getItem('musicPlaying') !== 'false') {
+                const savedTime = localStorage.getItem('musicPosition');
+                if (savedTime) {
+                    bgMusic.currentTime = parseFloat(savedTime);
+                }
+                bgMusic.play().then(function() {
+                    if (musicToggle) musicToggle.classList.add('playing');
+                    if (musicIcon) {
+                        musicIcon.innerHTML = '<i data-lucide="music"></i>';
+                        lucide.createIcons();
+                    }
+                    localStorage.setItem('musicPlaying', 'true');
+                }).catch(function(err) {
+                    console.log('Music play failed/blocked, waiting for interaction:', err);
+                    if (musicIcon) {
+                        musicIcon.innerHTML = '<i data-lucide="volume-x"></i>';
+                        lucide.createIcons();
+                    }
+                });
+            }
+        }
+
+        // Try to play immediately
+        startMusic();
+
+        // Fallback: Play on first interaction if blocked
+        const playOnInteraction = () => {
+            if (bgMusic && bgMusic.paused && localStorage.getItem('musicPlaying') !== 'false') {
+                startMusic();
+            }
+            document.removeEventListener('click', playOnInteraction);
+            document.removeEventListener('touchstart', playOnInteraction);
+        };
+        document.addEventListener('click', playOnInteraction);
+        document.addEventListener('touchstart', playOnInteraction);
 
         // Timeline animation on scroll
         const timelineItems = document.querySelectorAll('.timeline-item');
